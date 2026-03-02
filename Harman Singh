@@ -1,0 +1,65 @@
+local ground = script.Parent
+
+while true do
+	wait(5)
+
+	local plant = Instance.new("Part")
+	plant.Size = Vector3.new(1,1,1)
+	plant.Position = Vector3.new(
+		math.random(-20,20),
+		1,
+		math.random(-20,20)
+	)
+	plant.BrickColor = BrickColor.new("Bright green")
+	plant.Anchored = true
+	plant.Parent = workspace
+
+	wait(5)
+
+	plant.Size = Vector3.new(1,5,1)
+	plant.BrickColor = BrickColor.new("Dark green")
+endgame.Players.PlayerAdded:Connect(function(player)
+
+	local leaderstats = Instance.new("Folder")
+	leaderstats.Name = "leaderstats"
+	leaderstats.Parent = player
+
+	local coins = Instance.new("IntValue")
+	coins.Name = "Coins"
+	coins.Value = 50
+	coins.Parent = leaderstats
+
+end)local tool = script.Parent
+
+tool.Activated:Connect(function()
+
+	local character = tool.Parent
+	local player = game.Players:GetPlayerFromCharacter(character)
+
+	if player.leaderstats.Coins.Value >= 10 then
+
+		player.leaderstats.Coins.Value -= 10
+
+		local plant = Instance.new("Part")
+		plant.Size = Vector3.new(1,1,1)
+		plant.Position = character.HumanoidRootPart.Position + Vector3.new(0,0,-5)
+		plant.BrickColor = BrickColor.new("Bright green")
+		plant.Anchored = true
+		plant.Parent = workspace
+
+		wait(5)
+
+		plant.Size = Vector3.new(1,5,1)
+		plant.BrickColor = BrickColor.new("Dark green")
+
+		plant.ClickDetector.MouseClick:Connect(function(clickPlayer)
+			clickPlayer.leaderstats.Coins.Value += 20
+			plant:Destroy()
+		end)
+
+		local click = Instance.new("ClickDetector")
+		click.Parent = plant
+
+	end
+
+end)
